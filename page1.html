@@ -26,36 +26,47 @@
 		    <div class="col-sm-4">
 		    	<div class="jumbotron">
 				  <h1 class="display-3">AKTUELL</h1>
-				  <p class="lead">Hier kommen dann die aktuellen Infos rein</p>
+				  <p class="lead" id="w_temp"></p>
+				  <p class="lead" id="w_description"></p>
+				  <p class="lead" id="w_pressure"></p>
 				  <hr class="m-y-2">
 				  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
 				</div>
 		    </div>
 		    <div class="col-sm-8">
-		    	<canvas id="myChart" style="width: 90%; height:200px; padding:0px; margin:0px"></canvas>
+		    	<canvas id="myRainChart" style="width: 90%; height:200px; padding:0px; margin:0px"></canvas>
 		    </div>
 		</div>	
 	</div>
 
     <!-- SKRIPTE -->
 	<script>
-	$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=50.9382442&lon=6.9531454&units=metric&APPID=2ae98b15583d54661d45ed839f5b1095'
+	$.getJSON('http://api.openweathermap.org/data/2.5/weather?lat=50.9382442&lon=6.9531454&units=metric&APPID=2ae98b15583d54661d45ed839f5b1095'
 		, function(data){
-			generateChart(data, "myChart", "Regen in mm");
+			generateWeatherChart(data, "w_temp", "w_description", "w_pressure");
 		});
 
-	function generateChart(data, id, label){
-	var ctx = document.getElementById(id);
-	
-	var w_times = [];
-	var w_rain = [];
+	$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=50.9382442&lon=6.9531454&units=metric&APPID=2ae98b15583d54661d45ed839f5b1095'
+		, function(data){
+			generateRainChart(data, "myRainChart", "Regen in mm");
+		});
 
-	data.list.forEach(function(entry){
-		w_times.push(new Date(entry.dt*1000).getHours());
-		w_rain.push(entry.rain["3h"]);
-	});
+	function generateWeatherChart(data, id_temp, id_desc, id_pressure){
+		$( "#" + id_temp ).append("Temperature: " + data.main.temp + " °C");
+		$( "#" + id_desc ).append("Description: " + data.weather[0].description);
+		$( "#" + id_pressure ).append("Pressure: " + data.main.pressure + " hPa");
+	}
 
-	console.log(w_times);
+	function generateRainChart(data, id, label){
+		var ctx = document.getElementById(id);
+		
+		var w_times = [];
+		var w_rain = [];
+
+		data.list.forEach(function(entry){
+			w_times.push(new Date(entry.dt*1000).getHours() + ":00 h");
+			w_rain.push(entry.rain["3h"]);
+		});
 
 		var myChart = new Chart(ctx, {
 		    type: 'bar',
