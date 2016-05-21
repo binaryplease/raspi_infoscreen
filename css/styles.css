@@ -1,0 +1,43 @@
+body{
+	padding-top: 5%; 
+	padding-left: 5%; 
+	padding-right: 5%;
+}
+#myRainChart{
+
+	padding:0px; 
+	margin:0px;
+}
+#weather-icon{
+	width: 150px;
+	height: 150px;
+	background-image: url('../img/weather_icons.jpg');
+	float: left;
+}
+#w_temp{
+	font-size: 80px;
+	position: absolute;
+    bottom: 0px;
+    left: 160px;
+}
+#w_pressure{
+	position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+#page_1{
+	display: visible;
+	position: absolute;
+	width: 90%;
+	height: 90%;
+}
+#page_2, #page_3, #page_4, #page_5{
+	display: none;
+	position: absolute;
+	width: 90%;
+	height: 90%;
+}
+.iframe{
+	width: 100%;
+	height: 100%;
+}

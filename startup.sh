@@ -1,1 +1,1 @@
-chromium --kiosk --incognito ./page1.html
+chromium --kiosk --incognito ./index.html
