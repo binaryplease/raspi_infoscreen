@@ -5,7 +5,7 @@
 
 	$.getJSON('http://api.openweathermap.org/data/2.5/forecast?lat=50.9382442&lon=6.9531454&units=metric&APPID=2ae98b15583d54661d45ed839f5b1095'
 		, function(data){
-			generateRainChart(data, "myRainChart", "Regen in mm");
+			generateRainChart(data, "myRainChart", "Regen in mm", "myTempChart", "Tempertur in °C");
 		});
 
 	function generateWeatherChart(data, id_temp, id_desc, id_pressure){
@@ -55,30 +55,57 @@
 		}
 	}
 
-	function generateRainChart(data, id, label){
-		var ctx = document.getElementById(id);
-		ctx.width = 10;
-		ctx.height = 3;
-		
+	function generateRainChart(data, id_rain, label_rain, id_temp, label_temp){
 		var w_times = [];
 		var w_rain = [];
+		var w_temps = [];
 
 		data.list.forEach(function(entry){
 			w_times.push(new Date(entry.dt*1000).getHours() + ":00 h");
 			w_rain.push(entry.rain["3h"]);
+			w_temps.push(entry.main.temp);
 		});
 
-		console.log(w_rain);
+		var ctx = document.getElementById(id_rain);
+		ctx.width = 10;
+		ctx.height = 3;
 
 		var myChart = new Chart(ctx, {
 		    type: 'bar',
 		    data: {
 		        labels: w_times.slice(0,10),
 		        datasets: [{
-		            label: label,
+		            label: label_rain,
 		            data: w_rain.slice(0,10),
 		            backgroundColor: "rgba(0, 184, 204, 0.2)",
 		            borderColor: "rgba(0, 184, 204, 1)",
+		            borderWidth: 2,
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+
+		var ctx2 = document.getElementById(id_temp);
+		ctx2.width = 10;
+		ctx2.height = 3;
+
+		var myChart2 = new Chart(ctx2, {
+		    type: 'line',
+		    data: {
+		        labels: w_times.slice(0,10),
+		        datasets: [{
+		            label: label_temp,
+		            data: w_temps.slice(0,10),
+		            backgroundColor: "rgba(255, 128, 0, 0.2)",
+		            borderColor: "rgba(255, 128, 0, 1)",
 		            borderWidth: 2,
 		        }]
 		    },
