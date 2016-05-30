@@ -45,7 +45,10 @@ body{
 	margin-right: auto;
 	margin-left: auto;;
 }
-#h1_boobs{
+.h1_big{
 	font-size: 80px;
 	margin-bottom: 30px;
+}
+.spacer{
+	height: 30px;
 }
